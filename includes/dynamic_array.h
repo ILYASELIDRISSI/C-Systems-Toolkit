@@ -24,7 +24,12 @@ size_t d_array_size(const DynamicArray *array);
 
 size_t d_array_capacity(const DynamicArray *array);
 
+int d_array_insert(DynamicArray *array, size_t index, int value);
+
+int d_array_remove(DynamicArray *array, size_t index, int *value);
+
 void d_array_free(DynamicArray *array);
+
 
 
 

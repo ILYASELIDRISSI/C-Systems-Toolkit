@@ -107,4 +107,68 @@ void d_array_free(DynamicArray *array){
 
 }
 
+int d_array_insert(DynamicArray *array, size_t index, int value)
+{
+    if (array == NULL)
+    {
+        return -1;
+    }
+
+    if (index > array->size)
+    {
+        return -1;
+    }
+
+    if (array->size == array->capacity)
+    {
+        size_t new_capacity = array->capacity * 2;
+
+        int *temp = realloc(
+            array->data,
+            new_capacity * sizeof(*array->data)
+        );
+
+        if (temp == NULL)
+        {
+            return -1;
+        }
+
+        array->data = temp;
+        array->capacity = new_capacity;
+    }
+
+    for (size_t i = array->size; i > index; i--)
+    {
+        array->data[i] = array->data[i - 1];
+    }
+
+    array->data[index] = value;
+    array->size++;
+
+    return 0;
+}
+
+int d_array_remove(DynamicArray *array, size_t index, int *value)
+{
+    if (array == NULL || value == NULL)
+    {
+        return -1;
+    }
+
+    if (index >= array->size)
+    {
+        return -1;
+    }
+
+    *value = array->data[index];
+
+    for (size_t i = index; i < array->size - 1; i++)
+    {
+        array->data[i] = array->data[i + 1];
+    }
+
+    array->size--;
+
+    return 0;
+}
 
