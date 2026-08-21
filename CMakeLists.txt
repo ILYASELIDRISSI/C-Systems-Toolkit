@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(c_data_structures
+project(advanced_c_playground
     VERSION 1.0
     LANGUAGES C
 )
@@ -46,6 +46,24 @@ target_include_directories(linked_list
 )
 
 # ---------------------------------
+# Stack
+# ---------------------------------
+
+add_library(stack
+    src/stack.c
+)
+
+target_include_directories(stack
+    PUBLIC
+        ${PROJECT_SOURCE_DIR}/includes
+)
+
+target_link_libraries(stack
+    PUBLIC
+        dynamic_array
+)
+
+# ---------------------------------
 # Dynamic Array Tests
 # ---------------------------------
 
@@ -82,6 +100,24 @@ add_test(
 )
 
 # ---------------------------------
+# Stack Tests
+# ---------------------------------
+
+add_executable(test_stack
+    tests/test_stack.c
+)
+
+target_link_libraries(test_stack
+    PRIVATE
+        stack
+)
+
+add_test(
+    NAME stack_tests
+    COMMAND test_stack
+)
+
+# ---------------------------------
 # Compiler warnings
 # ---------------------------------
 
@@ -89,9 +125,11 @@ if(MSVC)
 
     target_compile_options(dynamic_array PRIVATE /W4)
     target_compile_options(linked_list PRIVATE /W4)
+    target_compile_options(stack PRIVATE /W4)
 
     target_compile_options(test_dynamic_array PRIVATE /W4)
     target_compile_options(test_linked_list PRIVATE /W4)
+    target_compile_options(test_stack PRIVATE /W4)
 
 else()
 
@@ -107,6 +145,12 @@ else()
         -Werror
     )
 
+    target_compile_options(stack PRIVATE
+        -Wall
+        -Wextra
+        -Werror
+    )
+
     target_compile_options(test_dynamic_array PRIVATE
         -Wall
         -Wextra
@@ -114,6 +158,12 @@ else()
     )
 
     target_compile_options(test_linked_list PRIVATE
+        -Wall
+        -Wextra
+        -Werror
+    )
+
+    target_compile_options(test_stack PRIVATE
         -Wall
         -Wextra
         -Werror
