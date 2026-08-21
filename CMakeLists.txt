@@ -5,22 +5,14 @@ project(advanced_c_playground
     LANGUAGES C
 )
 
-# ---------------------------------
-# C standard
-# ---------------------------------
-
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
-# ---------------------------------
-# Testing
-# ---------------------------------
-
 enable_testing()
 
 # ---------------------------------
-# Dynamic Array
+# Libraries
 # ---------------------------------
 
 add_library(dynamic_array
@@ -32,10 +24,6 @@ target_include_directories(dynamic_array
         ${PROJECT_SOURCE_DIR}/includes
 )
 
-# ---------------------------------
-# Linked List
-# ---------------------------------
-
 add_library(linked_list
     src/linked_list.c
 )
@@ -44,10 +32,6 @@ target_include_directories(linked_list
     PUBLIC
         ${PROJECT_SOURCE_DIR}/includes
 )
-
-# ---------------------------------
-# Stack
-# ---------------------------------
 
 add_library(stack
     src/stack.c
@@ -63,8 +47,17 @@ target_link_libraries(stack
         dynamic_array
 )
 
+add_library(queue
+    src/queue.c
+)
+
+target_include_directories(queue
+    PUBLIC
+        ${PROJECT_SOURCE_DIR}/includes
+)
+
 # ---------------------------------
-# Dynamic Array Tests
+# Tests
 # ---------------------------------
 
 add_executable(test_dynamic_array
@@ -81,10 +74,6 @@ add_test(
     COMMAND test_dynamic_array
 )
 
-# ---------------------------------
-# Linked List Tests
-# ---------------------------------
-
 add_executable(test_linked_list
     tests/test_linked_list.c
 )
@@ -98,10 +87,6 @@ add_test(
     NAME linked_list_tests
     COMMAND test_linked_list
 )
-
-# ---------------------------------
-# Stack Tests
-# ---------------------------------
 
 add_executable(test_stack
     tests/test_stack.c
@@ -117,6 +102,20 @@ add_test(
     COMMAND test_stack
 )
 
+add_executable(test_queue
+    tests/test_queue.c
+)
+
+target_link_libraries(test_queue
+    PRIVATE
+        queue
+)
+
+add_test(
+    NAME queue_tests
+    COMMAND test_queue
+)
+
 # ---------------------------------
 # Compiler warnings
 # ---------------------------------
@@ -126,47 +125,23 @@ if(MSVC)
     target_compile_options(dynamic_array PRIVATE /W4)
     target_compile_options(linked_list PRIVATE /W4)
     target_compile_options(stack PRIVATE /W4)
+    target_compile_options(queue PRIVATE /W4)
 
     target_compile_options(test_dynamic_array PRIVATE /W4)
     target_compile_options(test_linked_list PRIVATE /W4)
     target_compile_options(test_stack PRIVATE /W4)
+    target_compile_options(test_queue PRIVATE /W4)
 
 else()
 
-    target_compile_options(dynamic_array PRIVATE
-        -Wall
-        -Wextra
-        -Werror
-    )
+    target_compile_options(dynamic_array PRIVATE -Wall -Wextra -Werror)
+    target_compile_options(linked_list PRIVATE -Wall -Wextra -Werror)
+    target_compile_options(stack PRIVATE -Wall -Wextra -Werror)
+    target_compile_options(queue PRIVATE -Wall -Wextra -Werror)
 
-    target_compile_options(linked_list PRIVATE
-        -Wall
-        -Wextra
-        -Werror
-    )
-
-    target_compile_options(stack PRIVATE
-        -Wall
-        -Wextra
-        -Werror
-    )
-
-    target_compile_options(test_dynamic_array PRIVATE
-        -Wall
-        -Wextra
-        -Werror
-    )
-
-    target_compile_options(test_linked_list PRIVATE
-        -Wall
-        -Wextra
-        -Werror
-    )
-
-    target_compile_options(test_stack PRIVATE
-        -Wall
-        -Wextra
-        -Werror
-    )
+    target_compile_options(test_dynamic_array PRIVATE -Wall -Wextra -Werror)
+    target_compile_options(test_linked_list PRIVATE -Wall -Wextra -Werror)
+    target_compile_options(test_stack PRIVATE -Wall -Wextra -Werror)
+    target_compile_options(test_queue PRIVATE -Wall -Wextra -Werror)
 
 endif()
