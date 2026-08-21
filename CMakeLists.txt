@@ -19,6 +19,32 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 enable_testing()
 
+# ---------------------------------
+# Helper: compiler warnings
+# ---------------------------------
+
+function(enable_warnings target)
+
+    if(MSVC)
+
+        target_compile_options(${target}
+            PRIVATE
+                /W4
+        )
+
+    else()
+
+        target_compile_options(${target}
+            PRIVATE
+                -Wall
+                -Wextra
+                -Werror
+        )
+
+    endif()
+
+endfunction()
+
 # =================================
 # Libraries
 # =================================
@@ -36,6 +62,8 @@ target_include_directories(dynamic_array
         ${PROJECT_SOURCE_DIR}/includes
 )
 
+enable_warnings(dynamic_array)
+
 # ---------------------------------
 # Linked List
 # ---------------------------------
@@ -48,6 +76,8 @@ target_include_directories(linked_list
     PUBLIC
         ${PROJECT_SOURCE_DIR}/includes
 )
+
+enable_warnings(linked_list)
 
 # ---------------------------------
 # Stack
@@ -67,6 +97,8 @@ target_link_libraries(stack
         dynamic_array
 )
 
+enable_warnings(stack)
+
 # ---------------------------------
 # Queue
 # ---------------------------------
@@ -79,6 +111,8 @@ target_include_directories(queue
     PUBLIC
         ${PROJECT_SOURCE_DIR}/includes
 )
+
+enable_warnings(queue)
 
 # ---------------------------------
 # Circular Buffer
@@ -93,8 +127,10 @@ target_include_directories(circular_buffer
         ${PROJECT_SOURCE_DIR}/includes
 )
 
+enable_warnings(circular_buffer)
+
 # =================================
-# Test Executables
+# Tests
 # =================================
 
 # ---------------------------------
@@ -109,6 +145,8 @@ target_link_libraries(test_dynamic_array
     PRIVATE
         dynamic_array
 )
+
+enable_warnings(test_dynamic_array)
 
 add_test(
     NAME dynamic_array_tests
@@ -128,6 +166,8 @@ target_link_libraries(test_linked_list
         linked_list
 )
 
+enable_warnings(test_linked_list)
+
 add_test(
     NAME linked_list_tests
     COMMAND test_linked_list
@@ -145,6 +185,8 @@ target_link_libraries(test_stack
     PRIVATE
         stack
 )
+
+enable_warnings(test_stack)
 
 add_test(
     NAME stack_tests
@@ -164,6 +206,8 @@ target_link_libraries(test_queue
         queue
 )
 
+enable_warnings(test_queue)
+
 add_test(
     NAME queue_tests
     COMMAND test_queue
@@ -182,99 +226,9 @@ target_link_libraries(test_circular_buffer
         circular_buffer
 )
 
+enable_warnings(test_circular_buffer)
+
 add_test(
     NAME circular_buffer_tests
     COMMAND test_circular_buffer
 )
-
-# =================================
-# Compiler Warnings
-# =================================
-
-if(MSVC)
-
-    target_compile_options(dynamic_array PRIVATE /W4)
-    target_compile_options(linked_list PRIVATE /W4)
-    target_compile_options(stack PRIVATE /W4)
-    target_compile_options(queue PRIVATE /W4)
-    target_compile_options(circular_buffer PRIVATE /W4)
-
-    target_compile_options(test_dynamic_array PRIVATE /W4)
-    target_compile_options(test_linked_list PRIVATE /W4)
-    target_compile_options(test_stack PRIVATE /W4)
-    target_compile_options(test_queue PRIVATE /W4)
-    target_compile_options(test_circular_buffer PRIVATE /W4)
-
-else()
-
-    target_compile_options(dynamic_array
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-    target_compile_options(linked_list
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-    target_compile_options(stack
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-    target_compile_options(queue
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-    target_compile_options(circular_buffer
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-    target_compile_options(test_dynamic_array
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-    target_compile_options(test_linked_list
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-    target_compile_options(test_stack
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-    target_compile_options(test_queue
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-    target_compile_options(test_circular_buffer
-        PRIVATE
-            -Wall
-            -Wextra
-            -Werror
-    )
-
-endif()
