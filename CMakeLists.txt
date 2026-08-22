@@ -20,7 +20,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 enable_testing()
 
 # ---------------------------------
-# Helper: compiler warnings
+# Helper: Compiler Warnings
 # ---------------------------------
 
 function(enable_warnings target)
@@ -129,6 +129,21 @@ target_include_directories(circular_buffer
 
 enable_warnings(circular_buffer)
 
+# ---------------------------------
+# Hash Table
+# ---------------------------------
+
+add_library(hash_table
+    src/hash_table.c
+)
+
+target_include_directories(hash_table
+    PUBLIC
+        ${PROJECT_SOURCE_DIR}/includes
+)
+
+enable_warnings(hash_table)
+
 # =================================
 # Tests
 # =================================
@@ -231,4 +246,24 @@ enable_warnings(test_circular_buffer)
 add_test(
     NAME circular_buffer_tests
     COMMAND test_circular_buffer
+)
+
+# ---------------------------------
+# Hash Table Tests
+# ---------------------------------
+
+add_executable(test_hash_table
+    tests/test_hash_table.c
+)
+
+target_link_libraries(test_hash_table
+    PRIVATE
+        hash_table
+)
+
+enable_warnings(test_hash_table)
+
+add_test(
+    NAME hash_table_tests
+    COMMAND test_hash_table
 )
