@@ -5,162 +5,94 @@ project(advanced_c_playground
     LANGUAGES C
 )
 
-# ---------------------------------
-# C Standard
-# ---------------------------------
-
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
-# ---------------------------------
-# Testing
-# ---------------------------------
-
 enable_testing()
 
-# ---------------------------------
-# Helper: Compiler Warnings
-# ---------------------------------
-
 function(enable_warnings target)
-
     if(MSVC)
-
         target_compile_options(${target}
             PRIVATE
                 /W4
         )
-
     else()
-
         target_compile_options(${target}
             PRIVATE
                 -Wall
                 -Wextra
                 -Werror
         )
-
     endif()
-
 endfunction()
-
-# =================================
-# Libraries
-# =================================
-
-# ---------------------------------
-# Dynamic Array
-# ---------------------------------
 
 add_library(dynamic_array
     src/dynamic_array.c
 )
-
 target_include_directories(dynamic_array
-    PUBLIC
-        ${PROJECT_SOURCE_DIR}/includes
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
-
 enable_warnings(dynamic_array)
-
-# ---------------------------------
-# Linked List
-# ---------------------------------
 
 add_library(linked_list
     src/linked_list.c
 )
-
 target_include_directories(linked_list
-    PUBLIC
-        ${PROJECT_SOURCE_DIR}/includes
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
-
 enable_warnings(linked_list)
-
-# ---------------------------------
-# Stack
-# ---------------------------------
 
 add_library(stack
     src/stack.c
 )
-
 target_include_directories(stack
-    PUBLIC
-        ${PROJECT_SOURCE_DIR}/includes
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
-
 target_link_libraries(stack
-    PUBLIC
-        dynamic_array
+    PUBLIC dynamic_array
 )
-
 enable_warnings(stack)
-
-# ---------------------------------
-# Queue
-# ---------------------------------
 
 add_library(queue
     src/queue.c
 )
-
 target_include_directories(queue
-    PUBLIC
-        ${PROJECT_SOURCE_DIR}/includes
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
-
 enable_warnings(queue)
-
-# ---------------------------------
-# Circular Buffer
-# ---------------------------------
 
 add_library(circular_buffer
     src/circular_buffer.c
 )
-
 target_include_directories(circular_buffer
-    PUBLIC
-        ${PROJECT_SOURCE_DIR}/includes
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
-
 enable_warnings(circular_buffer)
-
-# ---------------------------------
-# Hash Table
-# ---------------------------------
 
 add_library(hash_table
     src/hash_table.c
 )
-
 target_include_directories(hash_table
-    PUBLIC
-        ${PROJECT_SOURCE_DIR}/includes
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
-
 enable_warnings(hash_table)
 
-# =================================
-# Tests
-# =================================
+add_library(binary_search_tree
+    src/binary_search_tree.c
+)
+target_include_directories(binary_search_tree
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
+)
+enable_warnings(binary_search_tree)
 
-# ---------------------------------
-# Dynamic Array Tests
-# ---------------------------------
 
 add_executable(test_dynamic_array
     tests/test_dynamic_array.c
 )
-
 target_link_libraries(test_dynamic_array
-    PRIVATE
-        dynamic_array
+    PRIVATE dynamic_array
 )
-
 enable_warnings(test_dynamic_array)
 
 add_test(
@@ -168,19 +100,13 @@ add_test(
     COMMAND test_dynamic_array
 )
 
-# ---------------------------------
-# Linked List Tests
-# ---------------------------------
 
 add_executable(test_linked_list
     tests/test_linked_list.c
 )
-
 target_link_libraries(test_linked_list
-    PRIVATE
-        linked_list
+    PRIVATE linked_list
 )
-
 enable_warnings(test_linked_list)
 
 add_test(
@@ -188,19 +114,13 @@ add_test(
     COMMAND test_linked_list
 )
 
-# ---------------------------------
-# Stack Tests
-# ---------------------------------
 
 add_executable(test_stack
     tests/test_stack.c
 )
-
 target_link_libraries(test_stack
-    PRIVATE
-        stack
+    PRIVATE stack
 )
-
 enable_warnings(test_stack)
 
 add_test(
@@ -208,19 +128,13 @@ add_test(
     COMMAND test_stack
 )
 
-# ---------------------------------
-# Queue Tests
-# ---------------------------------
 
 add_executable(test_queue
     tests/test_queue.c
 )
-
 target_link_libraries(test_queue
-    PRIVATE
-        queue
+    PRIVATE queue
 )
-
 enable_warnings(test_queue)
 
 add_test(
@@ -228,19 +142,13 @@ add_test(
     COMMAND test_queue
 )
 
-# ---------------------------------
-# Circular Buffer Tests
-# ---------------------------------
 
 add_executable(test_circular_buffer
     tests/test_circular_buffer.c
 )
-
 target_link_libraries(test_circular_buffer
-    PRIVATE
-        circular_buffer
+    PRIVATE circular_buffer
 )
-
 enable_warnings(test_circular_buffer)
 
 add_test(
@@ -248,22 +156,30 @@ add_test(
     COMMAND test_circular_buffer
 )
 
-# ---------------------------------
-# Hash Table Tests
-# ---------------------------------
 
 add_executable(test_hash_table
     tests/test_hash_table.c
 )
-
 target_link_libraries(test_hash_table
-    PRIVATE
-        hash_table
+    PRIVATE hash_table
 )
-
 enable_warnings(test_hash_table)
 
 add_test(
     NAME hash_table_tests
     COMMAND test_hash_table
+)
+
+
+add_executable(test_binary_search_tree
+    tests/test_binary_search_tree.c
+)
+target_link_libraries(test_binary_search_tree
+    PRIVATE binary_search_tree
+)
+enable_warnings(test_binary_search_tree)
+
+add_test(
+    NAME binary_search_tree_tests
+    COMMAND test_binary_search_tree
 )
