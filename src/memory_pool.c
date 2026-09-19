@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdint.h>
 #include "memory_pool.h"
 
 int memory_pool_init(MemoryPool *pool, size_t block_size, size_t capacity)
