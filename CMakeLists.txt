@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(advanced_c_playground
+project(c_systems_toolkit
     VERSION 1.0
     LANGUAGES C
 )
